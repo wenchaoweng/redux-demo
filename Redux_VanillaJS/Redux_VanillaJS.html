@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximun-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.bootcss.com/redux/4.0.4/redux.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    function add(){
+      store.dispatch({type:'add', payload: 1})
+    }
+    function minus() {
+      store.dispatch({type:'minus', payload: 1})
+    }
+    function add1IfOdd() {
+      if(store.getState()%2){
+        store.dispatch({type:'add', payload: 1})
+      }
+    }
+    function add1After2Sec() {
+      setTimeout(()=>{
+        store.dispatch({type:'add', payload: 10})
+      }, 2000)
+    }
+
+    function render(store){
+      var app = document.querySelector("#app")
+
+      app.innerHTML = `
+        <div>
+          你点击了 <span id='value'>${store.getState()}</span> 次
+          <div>
+            <button id="add" onclick="add()">+1</button>
+            <button id="minus" onclick="minus()">-1</button>
+            <button id="add1IfOdd" onclick="add1IfOdd()">如果是单数就+1</button>
+            <button id="add1After2Sec" onclick="add1After2Sec()">两秒钟后+10</button>
+          </div> 
+        </div>
+      `
+    }
+
+    function stateChanger(state, action)
+    {
+      if(state === undefined){
+        return 0
+      }else{
+        if(action.type === 'add'){
+          var newState = state + action.payload
+          return newState
+        }else if(action.type === 'minus'){
+          var newState = state - action.payload
+          return newState
+        }else{
+          return state
+        }
+      }
+    }
+
+    var store = Redux.createStore(stateChanger)
+
+    render(store)
+    store.subscribe(()=>{
+      render(store)
+    })
+  </script>
+</body>
+</html>
