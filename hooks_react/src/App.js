@@ -21,19 +21,19 @@ function Box2() {
 
 function App() {
   //1. 获取浏览器的地址hash，如http://localhost:3001/#signup中的#signup即为hash
-  let hash = window.location.hash;
+  let path = window.location.pathname;
   //2. 如果hash不为#signup，默认显示登录界面
-  let initUi = hash === "#signup" ? "注册" : "登录";
+  let initUi = path === "/signup" ? "注册" : "登录";
   const [ui, setUi] = useState(initUi);
   //3. 点击登录，设置ui变量为登录，同时修改浏览器的地址hash为login
     const onClickLogin = () => {
     setUi("登录");
-    window.location.hash = "login";
+    window.location.pathname = "/login";
   }
 
   const onClickSignUp = () => {
     setUi("注册");
-    window.location.hash = "signup";
+    window.location.pathname = "/signup";
   }
 
   return (
