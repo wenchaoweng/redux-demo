@@ -1,48 +1,50 @@
-import React from 'react';
-// 1. 引入useState
-import { useState, useEffect } from 'react';
-import "./App.css"
+import React from "react";
+import {  BrowserRouter as Router,  Switch,  Route,  Link} from "react-router-dom";
 
-function Box1() {
+export default function App() {
   return (
-    <div className="box">
-      注册
-    </div>
-  )
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/users">Users</Link>
+            </li>
+          </ul>
+        </nav>
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
-function Box2() {
-  return (
-    <div className="box">
-      登录
-    </div>
-  )
+function Home() {
+  return <h2>Home</h2>;
 }
 
-function App() {
-  //1. 获取浏览器的地址，如http://localhost:3001/signup中的/signup
-  let path = window.location.pathname;
-  //2. 如果path不为/signup，默认显示登录界面
-  let initUi = path === "/signup" ? "注册" : "登录";
-  const [ui, setUi] = useState(initUi);
-  //3. 点击登录，设置ui变量为登录，同时修改浏览器的地址为/login
-    const onClickLogin = () => {
-    setUi("登录");
-    window.history.pushState(null, '', "/login")
-  }
-
-  const onClickSignUp = () => {
-    setUi("注册");
-    window.history.pushState(null, '', "/signup")
-  }
-
-  return (
-    <div className="App">
-      <button onClick={onClickLogin}>登录</button>
-      <button onClick={onClickSignUp}>注册</button>
-      <div>{ui === "注册" ? <Box1 /> : <Box2 />}</div>
-    </div>
-  )
+function About() {
+  return <h2>About</h2>;
 }
 
-export default App;
+function Users() {
+  return <h2>Users</h2>;
+}
